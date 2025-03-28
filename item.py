@@ -4,14 +4,45 @@ class Room:
         self.items = items
 
 class Item:
-    def __init__(self, id, visible, pickable, locked, interactive, arg, success):
+    def __init__(self, id, name, state_num, visible, pickable, locked, interactive, arg, success, object_type):
         self.id = id
+        self.name = name
+        self.state_num = state_num
         self.visible = visible
         self.pickable = pickable
         self.interactive = interactive
         self.locked = locked
         self.arg = arg
         self.success = success
+        self.feedback_map = {}
+
+        self.label_list = [f'look at the {name}']
+        if object_type == 'KEY':
+            self.label_list.append(f'use the {name}')
+        elif object_type == 'LOCK':
+            self.label_list.append(f'unlock the {name}')
+        elif object_type == 'CONTAINER':
+            self.label_list.append(f'open the {name}')
+            self.label_list.append(f'close the {name}')
+            self.label_list.append(f'push the {name}')
+            self.label_list.append(f'pull the {name}')
+        elif object_type == 'INVESTIGATABLE':
+            self.label_list.append(f'investigate the {name}')
+
+    def get_name(self):
+        return self.name
+    
+    def add_feedback(self, index, feedback):
+        self.feedback_map.update({index: feedback})
+
+    def get_feedback(self, index):
+        return self.feedback_map.get(index)
+    
+    def change_state(self, state_num):
+        self.state_num = state_num
+
+    def get_state(self):
+        return self.state_num
 
     def interact(self, item_list):
         # Maybe add pull and push afterwards?
