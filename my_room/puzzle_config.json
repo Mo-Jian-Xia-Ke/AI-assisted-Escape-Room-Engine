@@ -1,0 +1,8 @@
+[
+    {
+        "name": "digital_lock",
+        "type": "digital_lock",
+        "belong_item": "lock",
+        "code": "9827"
+    }
+]

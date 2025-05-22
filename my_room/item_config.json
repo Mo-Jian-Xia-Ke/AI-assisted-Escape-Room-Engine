@@ -1,0 +1,79 @@
+[
+    {
+        "name": "painting",
+        "states": [
+            {
+                "description": "A painting with a suspicious crease."
+            },
+            {
+                "description": "A painting with a folded corner, where a series of number '9827' is written behind."
+            }
+        ]
+    },
+
+    {
+        "name": "handle",
+        "states": [
+            {
+                "description": "Not found. (invisible)",
+                "invisible": true
+            },
+            {
+                "description": "An assemblable door handle."
+            }
+        ]
+    },
+
+    {
+        "name": "box",
+        "states": [
+            {
+                "description": "A closed box."
+            },
+            {
+                "description": "A locked box.",
+                "awaken_list": ["lock"]
+            },
+            {
+                "description": "An unlocked box."
+            },
+            {
+                "description": "An open box with a handle inside.",
+                "awaken_list": ["handle"]
+            }
+        ]
+    },
+
+    {
+        "name": "lock",
+        "type": "puzzle",
+        "puzzle_state": 1,
+        "states": [
+            {
+                "description": "Not found. (invisible)",
+                "invisible": true
+            },
+            {
+                "description": "A normal digital lock that protects the box.",
+                "dependency_list": [["painting", 1]]
+            },
+            {
+                "description": "An unlocked lock.",
+                "awaken_list": ["box"]
+            }
+        ]
+    },
+
+    {
+        "name": "door",
+        "states": [
+            {
+                "description": "A closed door without handle.",
+                "dependency_list": [["handle", 1]]
+            },
+            {
+                "description": "The door can open now. You have successfully escaped the room. Congratulations!"
+            }
+        ]
+    }
+]
