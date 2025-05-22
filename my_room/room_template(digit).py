@@ -97,20 +97,20 @@ def interact_with_item(item):
     elif item.get_type() == Item_type.PUZZLE:
         if item.check_display_status():
             solved = item.display_puzzle()
-            if item.check_proceeding_status():
+            if solved:
                 # Successful interact
-                if solved:
+                if item.check_proceeding_status():
                     print("Ready to go!")
                     item.proceed_state()
                     print(f"description: {item.get_current_state().get_description()}")
                 # Failed interact
                 else:
-                    print("Incorrect answer!")
+                    print("Not ready yet (in display state)!")
+                    print(f"item state num: {item.get_state_num()}; puzzle state: {item.get_puzzle_state_num()}")
                     print(f"description: {item.get_current_state().get_description()}")
             # Failed interact
             else:
-                print("Not ready yet (in display state)!")
-                print(f"item state num: {item.get_state_num()}; puzzle state: {item.get_puzzle_state_num()}")
+                print("Incorrect answer!")
                 print(f"description: {item.get_current_state().get_description()}")
         # Successful interact
         elif item.check_proceeding_status():

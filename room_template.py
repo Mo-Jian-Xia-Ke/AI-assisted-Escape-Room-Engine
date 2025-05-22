@@ -1,5 +1,7 @@
-from item import*
-from actions import*
+from item_old import*
+from my_room.action import*
+
+from ollama_example import*
 
 def get_input1():
     while True:
@@ -113,8 +115,10 @@ def get_input1_action_2():
         elif interpreted == 'unlock the door':
             print(door.get_feedback(door.get_state()))
         elif interpreted == 'ask for clues':
-            # TODO: Need feedback generator (engine func3)
-            print("There seems to be something on the painting")
+            # default
+            # print("There seems to be something on the painting")
+            # Feedback generator (ollama)
+            print(hint_1(user_input))
         elif interpreted == 'other':
             print("Invalid input. Please try again.")
 
@@ -140,8 +144,10 @@ def get_input2_action_2():
             items[3].interact(items)
             return
         elif interpreted == 'ask for clues':
-            # TODO: Need feedback generator (engine func3)
-            print("The lock on the door seems to match the key")
+            # default
+            # print("There seems to be something on the painting")
+            # Feedback generator (ollama)
+            print(hint_2(user_input))
         else:
             print("Invalid input. Please try again.")
 

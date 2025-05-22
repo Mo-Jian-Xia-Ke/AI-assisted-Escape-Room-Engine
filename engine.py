@@ -9,7 +9,7 @@ class Engine:
     def action_interpreter(self):
         pass
 
-    # GPT interface
+    # LLM interface
     def feedback_generator(self):
         pass
 
@@ -24,5 +24,3 @@ class Engine:
     # Simple action: NLP interpret; Complex/Error Prone action: LLM interpret
 
     # Rasa Models
-
-# should I create a new environment on all the packages I need?

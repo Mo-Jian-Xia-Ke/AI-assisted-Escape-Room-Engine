@@ -4,16 +4,17 @@ class Room:
         self.items = items
 
 class Item:
-    def __init__(self, id, name, state_num, visible, pickable, locked, interactive, arg, success, object_type):
+    def __init__(self, id, name, visible, pickable, locked, interactive, arg, success, object_type):
         self.id = id
         self.name = name
-        self.state_num = state_num
+        
         self.visible = visible
         self.pickable = pickable
         self.interactive = interactive
         self.locked = locked
         self.arg = arg
         self.success = success
+        self.state_num = 0
         self.feedback_map = {}
 
         self.label_list = [f'look at the {name}']
