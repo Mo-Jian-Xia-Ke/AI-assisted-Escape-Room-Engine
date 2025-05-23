@@ -4,10 +4,6 @@ class Item_type(enum.Enum):
     NORMAL = "normal"
     PUZZLE = "puzzle"
 
-class Room:
-    def __init__(self, items):
-        self.items = items
-
 class Item:
     # Note that the first item has id of 1, in this case
     counter = 0

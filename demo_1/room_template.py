@@ -1,7 +1,7 @@
-from item_old import*
+from demo_1.item_old import*
 from my_room.action import*
 
-from ollama_example import*
+from demo_1.hint_temp import*
 
 def get_input1():
     while True:

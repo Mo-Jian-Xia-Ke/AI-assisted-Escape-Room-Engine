@@ -6,6 +6,7 @@ import ollama
 # Given the item, the current state, the dependencies to the next state, and the next state
 # generate a label
 def label_generator(item):
+    # Not consistent enough!
     item_name = item.get_name()
     states = item.get_state_list()
     cur_state = states[item.get_state_num()]
