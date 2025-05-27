@@ -74,4 +74,4 @@ def digital_lock_init(raw_puzzle):
         title = raw_puzzle['title']
     except KeyError:
         title = name
-    return digital_lock.Digital_Lock(name=name, code=code, num_digits=num_digits, title=title)
+    return digital_lock.DigitalLock(name=name, code=code, num_digits=num_digits, title=title)

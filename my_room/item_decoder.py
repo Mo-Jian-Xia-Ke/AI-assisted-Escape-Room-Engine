@@ -18,7 +18,7 @@ def item_dict_init(data):
         name_i = name_init(data[i])
         item_i = item_init(data[i])
         items[name_i] = item_i
-    __strengthen_arg_list__(items)
+    _strengthen_arg_list(items)
     return items
 
 # Given an item json, initialize the item object
@@ -85,7 +85,7 @@ def state_init(raw_state):
     return state.State(description=description, invisible=invisible, label=label, dependency_list=dependency_list, awaken_list=awaken_list)
 
 # Update all the item_name in dependecy_list and awaken_list into the item itself
-def __strengthen_arg_list__(items):
+def _strengthen_arg_list(items):
     for key in items:
         for state in items[key].get_state_list():
             for depend_pair in state.get_dependency_list():

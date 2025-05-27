@@ -17,14 +17,14 @@ class Item:
     puzzle_state: the state_num where the puzzle should be displayed to the player
     """
     def __init__(self, name, states, i_type=Item_type.NORMAL, puzzle_state=0):
-        self.id = Item.__set_id__()
+        self.id = Item._set_id()
         self.name = name
         self.states = states
         self.state_num = 0
         self.i_type = i_type
         self.puzzle_state = puzzle_state
     
-    def __set_id__():
+    def _set_id():
         Item.counter += 1
         return Item.counter
 
@@ -73,6 +73,8 @@ class Item:
             self.state_num += 1
             self.get_current_state().awake_all()
     
+# ------- Item_type.PUZZLE ------- #
+
     def check_display_status(self):
         return self.state_num == self.puzzle_state
 
@@ -82,47 +84,7 @@ class Item:
         if self.check_display_status():
             return self.puzzle.display()
 
-    # [Debug only]
+# ------- [Debug only] ------- #
     def print_states(self):
         for i, state in enumerate(self.states):
             print(f"{i}: {state}")
-
-###########
-
-
-    
-#     def add_feedback(self, index, feedback):
-#         self.feedback_map.update({index: feedback})
-
-#     def get_feedback(self, index):
-#         return self.feedback_map.get(index)
-    
-#     def change_state(self, state_num):
-#         self.state_num = state_num
-
-#     def get_state(self):
-#         return self.state_num
-
-#     def interact(self, item_list):
-#         # Maybe add pull and push afterwards?
-#         if self.interactive == Interactive.INVESTIGATE:
-#             item_list[self.arg].visualize()
-#         if self.interactive == Interactive.WITH_ITEM:
-#             item_list[self.id].unlock()
-    
-#     def visualize(self):
-#         self.visible = True
-
-#     def devisualize(self):
-#         self.visible = False
-
-#     def unlock(self):
-#         self.locked = False
-#         if self.success:
-#             print("Success")
-
-
-# class Interactive(Enum):
-#     NONE = 0
-#     INVESTIGATE = 1
-#     WITH_ITEM = 2

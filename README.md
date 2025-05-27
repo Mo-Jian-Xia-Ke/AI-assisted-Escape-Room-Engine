@@ -1,36 +1,33 @@
-Object Types:
-
-[Look]
-1. Key Type
-    [Use]
-2. Lock Type
-    [# To be interacted] [# attachable]
-    [Unlock]
-3. Container Type
-    [Open] [Close] # Can attach lock
-    [Pull?] [Push?]
-4. Investigatable Type
-    [Investigate...]
-
-Todo List:
+4.23 Todo List:
 1. Objects dependent action list
 2. Threshold hinting (e.g. 5 times failure -> give a hint? yes/no)
 3. Try multi-label = true
 
-# need environment?
+# Environment: package_info.md
 
-State Template:
+5.22 Todo List:
+1. Finish [Hinting] and [Feedback] for demo_2
+2. Create more puzzles and build demo_3
+3. LLM & NLP evaluation (in action.py)
 
-State (Object):
-    State Index:
-        1
-    State Description:
-        A closet with an open drawer
-    Pre-action Description:
-        Open the drawer
-    Labels:
-        ...
-    Post-actions:
-        A -> State 2
-        B -> State 3
-        ...
+4. Negative prompting in item_filler.py
+5. UI-Design
+6. Strict digital lock: Only "see code first then type code" -> success
+   Lazy digital lock: As soon as "type code" -> success
+   Adaptive digital lock (default): Generate code that avoid initial guesses, or guess all -> success ("Wow so hard you've tried!")
+
+Puzzle examples: (Each can have one of the three modes above)
+1. 数字谜题：
+    “我的倒数是我自己的一半，正着看和反着看一样。” -> 121
+    解方程或新定义运算等。
+2. 密码谜题：
+    Uifsf jt b tfdsfu npef -> （凯撒密码）There is a secret mode
+3. 拼图谜题：
+    拼图成功后解谜，或是得到密码
+4. 拨动时钟类谜题
+5. 书本排序类谜题
+
+独立小游戏谜题：(ref Rusty Lake)
+1. 音符敲击谜题
+2. 点火顺序谜题
+3. 拼图碎片复原
