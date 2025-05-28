@@ -1,8 +1,8 @@
-from puzzle import Puzzle, Puzzle_type
+from dependent_puzzle import DependentPuzzle, Dep_puzzle_type
 import tkinter as tk
 import math
 
-class ClockPuzzle(Puzzle):
+class ClockPuzzle(DependentPuzzle):
     """
     p_type: the type of the puzzle
     name: the name of the puzzle
@@ -13,12 +13,14 @@ class ClockPuzzle(Puzzle):
     hour_angle: the hour hand's angle on the clock, ranging from 0-360
     minute_angle: the minute hand's angle on the clock, ranging from 0-360
     """
-    def __init__(self, name, target_hour, target_minute, title):
-        self.p_type = Puzzle_type.CLOCK_PUZZLE
+    def __init__(self, name, target_hour, target_minute, title=""):
+        self.p_type = Dep_puzzle_type.CLOCK_PUZZLE
         self.name = name
         self.target_hour = target_hour
         self.target_minute = target_minute
         self.title = title
+        if not title:
+            self.title = name
         self.solved = False
         assert 0 <= self.target_hour < 12, "Set hour not valid!"
         assert 0 <= self.target_minute < 60, "Set minute not valid!"
@@ -31,8 +33,8 @@ class ClockPuzzle(Puzzle):
     
     def _main_window(self):
         def cancel():
-            self.root.destroy()
             self.solved = False
+            self.root.destroy()
 
         self.root = tk.Tk()
         self.root.title(self.title)

@@ -1,10 +1,4 @@
-import enum
 from abc import ABC, abstractmethod
-
-class Puzzle_type(enum.Enum):
-    DIGITAL_LOCK = "digital_lock",
-    CHAR_LOCK = "char_lock",
-    CLOCK_PUZZLE = "clock_puzzle"
 
 # Abstract class Puzzle for the subclass to inherit
 class Puzzle(ABC):

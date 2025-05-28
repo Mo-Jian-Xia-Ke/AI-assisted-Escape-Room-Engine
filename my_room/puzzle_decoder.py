@@ -1,6 +1,7 @@
 import json
 import sys
-sys.path.append('../puzzles')
+import os
+sys.path.append(os.path.abspath("../puzzles"))
 
 import digital_lock
 from puzzle import Puzzle_type

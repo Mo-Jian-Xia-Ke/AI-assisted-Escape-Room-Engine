@@ -17,17 +17,18 @@
    Adaptive digital lock (default): Generate code that avoid initial guesses, or guess all -> success ("Wow so hard you've tried!")
 
 Puzzle examples: (Each can have one of the three modes above)
-1. 数字谜题：
+1. 数字谜题：[Done]
     “我的倒数是我自己的一半，正着看和反着看一样。” -> 121
     解方程或新定义运算等。
-2. 密码谜题：
+2. 密码谜题：[Done]
     Uifsf jt b tfdsfu npef -> （凯撒密码）There is a secret mode
-3. 拼图谜题：
+3. 拼图谜题：(可以加code后套ind拼图)
     拼图成功后解谜，或是得到密码
-4. 拨动时钟类谜题
+4. 拨动时钟类谜题 [Done]
 5. 书本排序类谜题
 
 独立小游戏谜题：(ref Rusty Lake)
 1. 音符敲击谜题
 2. 点火顺序谜题
-3. 拼图碎片复原
+3. 拼图碎片复原 [Done]
+4. 机关拼装（或旋转）
