@@ -1,16 +1,14 @@
 import enum
 from abc import abstractmethod
-import sys
-import os
+from ..puzzle import Puzzle, PuzzleDependency
 
-sys.path.append(os.path.abspath(".."))
-from puzzle import Puzzle
-
-class Indep_puzzle_type(enum.Enum):
-    PURE_LOGIC = "pure_logic",
+class IndepPuzzleType(enum.Enum):
+    PURE_LOGIC = "pure_logic"
     JIGSAW = "jigsaw"
 
 class IndependentPuzzle(Puzzle):
+    puzzle_dependency = PuzzleDependency.INDEPENDENT_PUZZLE
+
     @abstractmethod
     def __init__(self):
         pass

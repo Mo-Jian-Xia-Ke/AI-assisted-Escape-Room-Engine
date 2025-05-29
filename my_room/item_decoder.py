@@ -1,9 +1,8 @@
-import state
-import item
 import json
+from . import state, item
 
-# config_file = "my_room/item_config.json"
-config_file = "item_config.json"
+config_file = "my_room/item_config.json"
+# config_file = "item_config.json"
 
 # Given the path to the config file, return the initialized system (item dict)
 def system_init(config_file):
@@ -27,17 +26,17 @@ def item_init(raw_item):
     try:
         i_type = None
         type_value = raw_item['type']
-        for item_type in item.Item_type:
+        for item_type in item.ItemType:
             if type_value == item_type.value:
                 i_type = item_type
         if not i_type:
             print("Wrong item type!")
     except KeyError:
-        i_type = item.Item_type.NORMAL
+        i_type = item.ItemType.NORMAL
     try:
         puzzle_state = raw_item['puzzle_state']
     except KeyError:
-        if i_type == item.Item_type.PUZZLE:
+        if i_type == item.ItemType.PUZZLE:
             print("Missing puzzle displaying state!")
         puzzle_state = 0
     try:

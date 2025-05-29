@@ -1,4 +1,9 @@
 from abc import ABC, abstractmethod
+import enum
+
+class PuzzleDependency(enum.Enum):
+    DEPENDENT_PUZZLE = "dependent_puzzle"
+    INDEPENDENT_PUZZLE = "independent_puzzle"
 
 # Abstract class Puzzle for the subclass to inherit
 class Puzzle(ABC):

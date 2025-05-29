@@ -1,19 +1,14 @@
 # Ollama fills the empty part for the item
-import item
-import state
 import ollama
+from . import item, state
 
 # Given the item, the current state, the dependencies to the next state, and the next state
 # generate a label
 def label_generator(item):
     # Not consistent enough!
     item_name = item.get_name()
-    states = item.get_state_list()
-    cur_state = states[item.get_state_num()]
-    try:
-        next_state = states[item.get_state_num() + 1]
-    except IndexError:
-        print("No further states!")
+    cur_state = item.get_current_state()
+    next_state = item.get_next_state()
     dependencies = cur_state.get_dependency_list()
 
     dependency_text = ""
@@ -32,15 +27,19 @@ def label_generator(item):
     Your task is to provide suitable and succinct label for the NLP model to fit on user's action.
     """
     prompt = """
+    Here are some examples:
     Example 1:
     If the item is "closet", the current state says "The closet is closed.", and the next state given says "The closet is now open.", you should generate the possible action label "open the closet".
     Example 2:
     If the item is "cup", the current state says "An empty cup", the dependencies say "the tea bag is ready" and "the hot water is ready", and the next state says "A cup of hot tea.", you should generate the possible action label "make tea in the cup".
     Example 3:
     If the item is "painting", the current state says "A painting with a suspicious crease.", and the next state says "A painting with a folded corner, where the secret code is written behind.", you should generate the possible action label "examine the painting".
+    Example 44:
+    Example 1:
+    If the item is "lock", the current state says "A normal digital lock.", and the next state given says "The lock is unlocked.", you should generate the possible action label "try the lock". If the label contains "digital lock", it will be to hard for the action interpreter to fit the player's action on, so avoid that and just say "lock".
     """
     user_input = f"""
-    Now, the item name is "{item_name}", the current state says "{cur_state.get_description()}"{dependency_text}, and the next state says "{next_state.get_description()}. Now generate a suitable and succinct label for the possible user action."
+    Now, the item name is "{item_name}", the current state says "{cur_state.get_description()}"{dependency_text}, and the next state says "{next_state.get_description()}. Now generate a suitable, general and succinct label for the possible user action."
     """
     posttext = """
     Notice: Converge the action to only one branch, without using 'or' to connect long actions.
@@ -76,12 +75,13 @@ def test_room_description_generator(item):
 def test_feedback_generator(item):
     pass
 
-simple_state_1 = state.State("The bag is closed.")
-simple_state_2 = state.State("The bag is now open.")
-simple_item = item.Item("bag",[simple_state_1, simple_state_2])
+if __name__ == "__main__":
+    simple_state_1 = state.State("The bag is closed.")
+    simple_state_2 = state.State("The bag is now open.")
+    simple_item = item.Item("bag",[simple_state_1, simple_state_2])
 
-test_label = test_label_generator(simple_item)
-print(test_label)
+    test_label = test_label_generator(simple_item)
+    print(test_label)
 
-test_room_description = test_room_description_generator(simple_item)
-test_feedback = test_feedback_generator(simple_item)
+    test_room_description = test_room_description_generator(simple_item)
+    test_feedback = test_feedback_generator(simple_item)

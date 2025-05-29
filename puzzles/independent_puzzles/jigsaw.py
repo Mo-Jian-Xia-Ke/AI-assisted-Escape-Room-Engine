@@ -1,4 +1,4 @@
-from independent_puzzle import IndependentPuzzle, Indep_puzzle_type
+from .independent_puzzle import IndependentPuzzle, IndepPuzzleType
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
@@ -7,7 +7,7 @@ import os
 
 class _PuzzlePiece:
     """
-        TODO
+        TODO (Not complete yet)
     """
     def __init__(self, jigsaw, canvas, image, target_x, target_y, size, offset_max):
         self.jigsaw = jigsaw
@@ -53,7 +53,7 @@ class Jigsaw(IndependentPuzzle):
         TODO
     """
     def __init__(self, name, image_path, grid_size=3, puzzle_size=600, patch_size=50, title=""):
-        self.p_type = Indep_puzzle_type.JIGSAW
+        self.p_type = IndepPuzzleType.JIGSAW
         self.name = name
         self.image_path = os.path.abspath(image_path)
         self._valid_image_path(str(self.image_path))

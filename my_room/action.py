@@ -5,7 +5,7 @@ import transformers
 import spacy
 import en_core_web_sm
 
-import item_filler
+from . import item_filler
 # classifier usage example:
 # sequence_to_classify = "What should I do now?"
 # candidate_labels = ['ask for clues', 'open the lock', 'open the drawer', 'look at the drawer']

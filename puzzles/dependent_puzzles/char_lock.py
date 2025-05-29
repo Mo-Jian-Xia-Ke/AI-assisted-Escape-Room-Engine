@@ -1,10 +1,10 @@
-from dependent_puzzle import DependentPuzzle, Dep_puzzle_type
+from .dependent_puzzle import DependentPuzzle, DepPuzzleType
 import tkinter as tk
 from tkinter import messagebox
 
 class CharLock(DependentPuzzle):
     def __init__(self, name, code, num_chars, title=""):
-        self.p_type = Dep_puzzle_type.CHAR_LOCK
+        self.p_type = DepPuzzleType.CHAR_LOCK
         self.name = name
         self.code = code
         self.num_chars = num_chars

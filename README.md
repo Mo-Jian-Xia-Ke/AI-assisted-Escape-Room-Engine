@@ -6,7 +6,7 @@
 # Environment: package_info.md
 
 5.22 Todo List:
-1. Finish [Hinting] and [Feedback] for demo_2
+1. Finish /Hinting/ and /Feedback/ for demo_2 [Partly_Done] [Partly_Done]
 2. Create more puzzles and build demo_3
 3. LLM & NLP evaluation (in action.py)
 

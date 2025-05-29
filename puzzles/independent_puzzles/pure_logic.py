@@ -1,4 +1,4 @@
-from independent_puzzle import IndependentPuzzle, Indep_puzzle_type
+from .independent_puzzle import IndependentPuzzle, IndepPuzzleType
 import tkinter as tk
 
 class PureLogic(IndependentPuzzle):
@@ -6,7 +6,7 @@ class PureLogic(IndependentPuzzle):
     code: hint only
     """
     def __init__(self, name, riddle, code, title=""):
-        self.p_type = Indep_puzzle_type.PURE_LOGIC
+        self.p_type = IndepPuzzleType.PURE_LOGIC
         self.name = name
         self.code = code
         self.riddle = riddle

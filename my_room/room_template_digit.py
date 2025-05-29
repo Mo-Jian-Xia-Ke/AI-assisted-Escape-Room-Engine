@@ -1,12 +1,8 @@
-import item
-from item import Item_type
-import item_decoder
-import item_filler
-import action
-import puzzle_decoder
-import room
+import sys
+from .item import ItemType
+from . import item_decoder, item_filler, action, puzzle_decoder, room, hint_generator
 
-# Temp room description
+# [Temp] room description
 def display_room_description(room):
     item_counter = 1
     room_description = "\nRoom Description: \n"
@@ -19,51 +15,58 @@ def display_room_description(room):
         item_counter += 1
     print(room_description)
 
+def feedback_success(item):
+    print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+    print("Ready to go!")
+    item.proceed_state()
+    print(f"New description: {item.get_current_state().get_description()}")
+    print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+
+def feedback_failure(item):
+    print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+    print("Not ready yet!")
+    if item.get_type() == ItemType.PUZZLE:
+        print(f"item state num: {item.get_state_num()}; puzzle state: {item.get_puzzle_state_num()}")
+    print(f"Current description(still): {item.get_current_state().get_description()}")
+    print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+
+
 def interact_with_item(item):
     # Failed interact (end state)
     if item.check_end_state():
         print(f"End state for {item.get_name()}!")
         return
 
-    if item.get_type() == Item_type.NORMAL:
+    if item.get_type() == ItemType.NORMAL:
         # Successful interact
         if item.check_proceeding_status():
-            print("Ready to go!")
-            item.proceed_state()
-            print(f"description: {item.get_current_state().get_description()}")
+           feedback_success(item)
         # Failed interact
         else:
-            print("Not ready yet!")
-            print(f"description: {item.get_current_state().get_description()}")
+            feedback_failure(item)
 
-    elif item.get_type() == Item_type.PUZZLE:
+    elif item.get_type() == ItemType.PUZZLE:
         if item.check_display_status():
             solved = item.display_puzzle()
             if solved:
                 # Successful interact
                 if item.check_proceeding_status():
-                    print("Ready to go!")
-                    item.proceed_state()
-                    print(f"description: {item.get_current_state().get_description()}")
+                    feedback_success(item)
                 # Failed interact
                 else:
-                    print("Not ready yet (in display state)!")
-                    print(f"item state num: {item.get_state_num()}; puzzle state: {item.get_puzzle_state_num()}")
-                    print(f"description: {item.get_current_state().get_description()}")
-            # Failed interact
+                    feedback_failure(item)
+            # Failed interact (Ver 2)
             else:
+                print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
                 print("Incorrect answer!")
-                print(f"description: {item.get_current_state().get_description()}")
+                print(f"Current description(still): {item.get_current_state().get_description()}")
+                print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
         # Successful interact
         elif item.check_proceeding_status():
-            print("Ready to go!")
-            item.proceed_state()
-            print(f"description: {item.get_current_state().get_description()}")
+            feedback_success(item)
         # Failed interact
         else:
-            print("Not ready yet!")
-            print(f"item state num: {item.get_state_num()}; puzzle state: {item.get_puzzle_state_num()}")
-            print(f"description: {item.get_current_state().get_description()}")   
+            feedback_failure(item)
 
 def input_handler(room):
     end_game = False
@@ -75,16 +78,17 @@ def input_handler(room):
     # Avoid empty input
     if user_input == "":
         user_input = "."
+    if user_input == "quit":
+        sys.exit()
 
-    nouns = action_interpreter.extract_noun(user_input)
-    labels = action_interpreter.update_labels(nouns, room.get_items())
-    interpreted = action_interpreter.interpret(user_input, labels)
+    nouns = room.get_action_interpreter().extract_noun(user_input)
+    labels = room.get_action_interpreter().update_labels(nouns, room.get_items())
+    interpreted = room.get_action_interpreter().interpret(user_input, labels)
 
     valid_input = False
-    if interpreted == 'ask for clues':
+    if interpreted == 'ask for hint':
         valid_input = True
-        print("Hint: TODO")
-        pass
+        room.get_hint_generator().hinting_manager(user_input)
     else:
         for key in room.get_items():
             item = room.get_items()[key]
@@ -106,15 +110,17 @@ def input_handler(room):
     return False
 
 # Game starts
-if __name__ == "__main__":
-    item_config_file = "item_config.json"
-    puzzle_config_file = "puzzle_config.json"
+def main():
+    item_config_file = "my_room/item_config.json"
+    puzzle_config_file = "my_room/puzzle_config.json"
     items = item_decoder.system_init(item_config_file)
     puzzles = puzzle_decoder.system_init(puzzle_config_file, items)
     end_state = items['door'].get_state_list()[-1]
 
-    medium_room = room.Room(items, puzzles, end_state)
     action_interpreter = action.Action()
+    medium_room = room.Room(items, puzzles, action_interpreter, end_state)
+    hint_system = hint_generator.HintGenerator(medium_room)
+    medium_room.set_hint_generator(hint_system)
 
     # If the game has not reached the end state, keep continue the input-action loop
     end_game = False
@@ -122,3 +128,6 @@ if __name__ == "__main__":
         end_game = input_handler(medium_room)
 
     print("Congrat!!!!!")
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,6 @@
 import enum
 
-class Item_type(enum.Enum):
+class ItemType(enum.Enum):
     NORMAL = "normal"
     PUZZLE = "puzzle"
 
@@ -13,10 +13,10 @@ class Item:
     name: the item's name
     states: the array of states the item has
     state_num: indicates the state the item is in
-    i_type: the item's type (of Enum Item_type)
+    i_type: the item's type (of Enum ItemType)
     puzzle_state: the state_num where the puzzle should be displayed to the player
     """
-    def __init__(self, name, states, i_type=Item_type.NORMAL, puzzle_state=0):
+    def __init__(self, name, states, i_type=ItemType.NORMAL, puzzle_state=0):
         self.id = Item._set_id()
         self.name = name
         self.states = states
@@ -29,7 +29,7 @@ class Item:
         return Item.counter
 
     def set_puzzle(self, puzzle):
-        assert self.i_type == Item_type.PUZZLE, f"Item '{self.name}' should contain a puzzle!"
+        assert self.i_type == ItemType.PUZZLE, f"Item '{self.name}' should contain a puzzle!"
         self.puzzle = puzzle
     
     def get_name(self):
@@ -56,6 +56,14 @@ class Item:
     def set_current_label(self, label):
         self.get_current_state().set_label(label)
 
+    # May throw IndexError
+    def get_next_state(self):
+        try:
+            next_state = self.states[self.state_num + 1]
+        except IndexError:
+            print("No further states!")
+        return next_state
+
     def check_invisible(self):
         return self.get_current_state().check_invisible()
     
@@ -65,7 +73,7 @@ class Item:
 
     # Check whether the item can be proceed to the next state
     def check_proceeding_status(self):
-        return self.get_current_state().check_proceeding_status()
+        return not self.check_end_state() and self.get_current_state().check_proceeding_status()
     
     # Proceed the item's state, then awake items in the new state's awaken_list
     def proceed_state(self):
@@ -73,14 +81,14 @@ class Item:
             self.state_num += 1
             self.get_current_state().awake_all()
     
-# ------- Item_type.PUZZLE ------- #
+# ------- ItemType.PUZZLE ------- #
 
     def check_display_status(self):
         return self.state_num == self.puzzle_state
 
     # If the state is the puzzle-displaying state, display the puzzle attached to the item
     def display_puzzle(self):
-        assert self.i_type == Item_type.PUZZLE, f"Item '{self.name}' should contain a puzzle!"
+        assert self.i_type == ItemType.PUZZLE, f"Item '{self.name}' should contain a puzzle!"
         if self.check_display_status():
             return self.puzzle.display()
 

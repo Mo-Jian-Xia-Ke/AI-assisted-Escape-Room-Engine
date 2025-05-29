@@ -1,10 +1,10 @@
-from dependent_puzzle import DependentPuzzle, Dep_puzzle_type
+from .dependent_puzzle import DependentPuzzle, DepPuzzleType
 import tkinter as tk
 from tkinter import messagebox
 
 class DigitalLock(DependentPuzzle):
     def __init__(self, name, code, num_digits, title=""):
-        self.p_type = Dep_puzzle_type.DIGITAL_LOCK
+        self.p_type = DepPuzzleType.DIGITAL_LOCK
         self.name = name
         self.code = code
         self.num_digits = num_digits
