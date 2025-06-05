@@ -16,6 +16,9 @@ class CharLock(DependentPuzzle):
     def display(self):
         self._main_window()
         return self.solved
+    
+    def get_code(self):
+        return self.code
 
     def _main_window(self):
         def get_password():
@@ -61,7 +64,11 @@ class CharLock(DependentPuzzle):
         root.mainloop()
 
 # Test
-if __name__ == "__main__":
-    test_lock = CharLock(name="test", code="LOVE", num_chars=4, title="Test Lock")
+def test():
+    code = "LOVE"
+    test_lock = CharLock(name="test", code=code, num_chars=len(code))
     result = test_lock.display()
     print(result)
+
+if __name__ == "__main__":
+    test()

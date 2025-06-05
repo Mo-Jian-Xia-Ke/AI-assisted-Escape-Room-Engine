@@ -15,6 +15,7 @@ def display_room_description(room):
         item_counter += 1
     print(room_description)
 
+# [Temp] feedbacks
 def feedback_success(item):
     print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
     print("Ready to go!")
@@ -22,6 +23,7 @@ def feedback_success(item):
     print(f"New description: {item.get_current_state().get_description()}")
     print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 
+# [Temp] feedbacks
 def feedback_failure(item):
     print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
     print("Not ready yet!")
@@ -29,7 +31,6 @@ def feedback_failure(item):
         print(f"item state num: {item.get_state_num()}; puzzle state: {item.get_puzzle_state_num()}")
     print(f"Current description(still): {item.get_current_state().get_description()}")
     print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-
 
 def interact_with_item(item):
     # Failed interact (end state)
@@ -88,7 +89,8 @@ def input_handler(room):
     valid_input = False
     if interpreted == 'ask for hint':
         valid_input = True
-        room.get_hint_generator().hinting_manager(user_input)
+        hints = room.get_hint_generator().hinting_manager(user_input)
+        print(hints)
     else:
         for key in room.get_items():
             item = room.get_items()[key]
@@ -98,7 +100,7 @@ def input_handler(room):
                 print(f"Item '{key}' is triggered!")
                 interact_with_item(item)
                 valid_input = True
-                if room.check_end_state(item.get_current_state()):
+                if room.check_end_state():
                     end_game = True
                 break
     if not valid_input:
@@ -111,14 +113,16 @@ def input_handler(room):
 
 # Game starts
 def main():
+    # [For Developers to modify]
     item_config_file = "my_room/item_config.json"
     puzzle_config_file = "my_room/puzzle_config.json"
     items = item_decoder.system_init(item_config_file)
     puzzles = puzzle_decoder.system_init(puzzle_config_file, items)
-    end_state = items['door'].get_state_list()[-1]
+    end_item = items['door']
+    end_state = end_item.get_state_list()[-1]
 
     action_interpreter = action.Action()
-    medium_room = room.Room(items, puzzles, action_interpreter, end_state)
+    medium_room = room.Room(items, puzzles, action_interpreter, end_item, end_state)
     hint_system = hint_generator.HintGenerator(medium_room)
     medium_room.set_hint_generator(hint_system)
 

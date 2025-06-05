@@ -20,6 +20,9 @@ class PureLogic(IndependentPuzzle):
         self.displayed = True
         return self.displayed
     
+    def get_code(self):
+        return self.code
+    
     def _main_window(self):
         def cancel():
             msg.destroy()
@@ -44,7 +47,12 @@ class PureLogic(IndependentPuzzle):
         root.mainloop()
 
 # Test
-if __name__ == "__main__":
-    test_logic = PureLogic(name="test", riddle="1 + 2", code="3", title="Test Lock")
+def test():
+    riddle = "1 + 2"
+    code = "3"
+    test_logic = PureLogic(name="test", riddle=riddle, code=code)
     result = test_logic.display()
     print(result)
+
+if __name__ == "__main__":
+    test()

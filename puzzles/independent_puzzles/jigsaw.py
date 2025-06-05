@@ -131,7 +131,11 @@ class Jigsaw(IndependentPuzzle):
             self.root.destroy()
 
 # Test
-if __name__ == "__main__":
-    test_jigsaw = Jigsaw(name="test", image_path=os.path.abspath("../../img/room1.png"))
+def test():
+    image_path = os.path.abspath("img/room1.png")
+    test_jigsaw = Jigsaw(name="test", image_path=image_path)
     result = test_jigsaw.display()
     print(result)
+
+if __name__ == "__main__":
+    test()

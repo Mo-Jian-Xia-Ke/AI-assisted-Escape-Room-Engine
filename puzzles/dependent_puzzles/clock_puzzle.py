@@ -31,6 +31,9 @@ class ClockPuzzle(DependentPuzzle):
         self._main_window()
         return self.solved
     
+    def get_code(self):
+        return f"{self.target_hour}:{self.target_minute}"
+    
     def _main_window(self):
         def cancel():
             self.solved = False
@@ -123,7 +126,12 @@ class ClockPuzzle(DependentPuzzle):
             self.solved = True
 
 # Test
-if __name__ == "__main__":
-    test_clock = ClockPuzzle(name="test", target_hour=5, target_minute=30, title="Test Clock")
+def test():
+    target_hour = 5
+    target_minute = 30
+    test_clock = ClockPuzzle(name="test", target_hour=target_hour, target_minute=target_minute)
     result = test_clock.display()
     print(result)
+
+if __name__ == "__main__":
+    test()

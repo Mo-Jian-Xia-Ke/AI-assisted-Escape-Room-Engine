@@ -36,7 +36,8 @@ def label_generator(item):
     If the item is "painting", the current state says "A painting with a suspicious crease.", and the next state says "A painting with a folded corner, where the secret code is written behind.", you should generate the possible action label "examine the painting".
     Example 44:
     Example 1:
-    If the item is "lock", the current state says "A normal digital lock.", and the next state given says "The lock is unlocked.", you should generate the possible action label "try the lock". If the label contains "digital lock", it will be to hard for the action interpreter to fit the player's action on, so avoid that and just say "lock".
+    If the item is "lock", the current state says "A normal digital lock.", and the next state given says "The lock is unlocked.", you should generate the possible action label "try the lock".
+    If the label you generate says "unlock the digital lock", it will be to hard for the action interpreter to fit the player's action on. So avoid that and just provide "try the lock", as simple as possible.
     """
     user_input = f"""
     Now, the item name is "{item_name}", the current state says "{cur_state.get_description()}"{dependency_text}, and the next state says "{next_state.get_description()}. Now generate a suitable, general and succinct label for the possible user action."

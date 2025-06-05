@@ -16,6 +16,9 @@ class DigitalLock(DependentPuzzle):
     def display(self):
         self._main_window()
         return self.solved
+    
+    def get_code(self):
+        return self.code
 
     def _main_window(self):
         def get_password():
@@ -61,7 +64,11 @@ class DigitalLock(DependentPuzzle):
         root.mainloop()
 
 # Test
-if __name__ == "__main__":
-    test_lock = DigitalLock(name="test", code=1234, num_digits=4, title="Test Lock")
+def test():
+    code = 1234
+    test_lock = DigitalLock(name="test", code=code, num_digits=len(str(code)))
     result = test_lock.display()
     print(result)
+
+if __name__ == "__main__":
+    test()
