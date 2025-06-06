@@ -82,9 +82,11 @@ def input_handler(room):
     if user_input == "quit":
         sys.exit()
 
-    nouns = room.get_action_interpreter().extract_noun(user_input)
-    labels = room.get_action_interpreter().update_labels(nouns, room.get_items())
-    interpreted = room.get_action_interpreter().interpret(user_input, labels)
+    # nouns = room.get_action_interpreter().extract_noun(user_input)
+    # labels = room.get_action_interpreter().update_labels(nouns, room.get_items())
+    # interpreted = room.get_action_interpreter().interpret(user_input, labels)
+
+    interpreted = room.get_action_interpreter().interpret(user_input)
 
     valid_input = False
     if interpreted == 'ask for hint':
@@ -121,7 +123,7 @@ def main():
     end_item = items['door']
     end_state = end_item.get_state_list()[-1]
 
-    action_interpreter = action.Action()
+    action_interpreter = action.Action(items, "hybrid")
     medium_room = room.Room(items, puzzles, action_interpreter, end_item, end_state)
     hint_system = hint_generator.HintGenerator(medium_room)
     medium_room.set_hint_generator(hint_system)

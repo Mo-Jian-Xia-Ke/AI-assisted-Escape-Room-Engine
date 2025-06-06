@@ -8,7 +8,7 @@ AI-assisted escape room engine
 
 # Environment: package_info.md
 Remember to include MIT license
-Comments
+Comments: """ shoule be inside python class and functions!
 UI-Manager
 
 5.22 Todo List:
@@ -25,6 +25,13 @@ UI-Manager
 5.29 Todo List:
 Implement Hinting Manager [Problem: Sometimes trigger the action label, but not 'ask for hint', need the hybrid approach implement!]
 From json to yml file?
+
+6.5:
+Correct Label + 2-3 Interrupt label
+If confidence level > 0.75: accept
+Else: LLM trigger
+
+Report: different confidence level accuracy & time comparison
 
 Puzzle examples: (Each can have one of the three modes above)
 1. 数字谜题：[Done]

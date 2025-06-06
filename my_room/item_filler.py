@@ -37,7 +37,6 @@ def label_generator(item):
     Example 44:
     Example 1:
     If the item is "lock", the current state says "A normal digital lock.", and the next state given says "The lock is unlocked.", you should generate the possible action label "try the lock".
-    If the label you generate says "unlock the digital lock", it will be to hard for the action interpreter to fit the player's action on. So avoid that and just provide "try the lock", as simple as possible.
     """
     user_input = f"""
     Now, the item name is "{item_name}", the current state says "{cur_state.get_description()}"{dependency_text}, and the next state says "{next_state.get_description()}. Now generate a suitable, general and succinct label for the possible user action."
@@ -52,7 +51,7 @@ def label_generator(item):
         'content': pretext + prompt + user_input + posttext,
     },
     ])
-    return response['message']['content']
+    return response['message']['content'].strip('\'".').lower()
 
 def room_description_generator(item):
     # Given current room description, and the item's current state

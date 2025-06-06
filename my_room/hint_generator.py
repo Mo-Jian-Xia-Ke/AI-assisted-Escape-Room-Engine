@@ -10,57 +10,6 @@ class HintGenerator:
     # Forward: WHat should we do about xxx?
     # Backward: What to do NOW?
     def hinting_manager(self, user_input):
-        # pretext = """
-        # Suppose you are a hinting task manager in an escape room game. Hinting agents are general forward hinting agent, item specific hinting agent, and general backward hinting agent.
-        # General forward hinting agent select one ready-to-proceed item and hint, suggesting the player what could he immediately do.
-        # Item speific hinting agent extracts which item the player is asking about, then give a hint to that item. Put '<>' around the item in your output and only output the corresponding item when you decide Item Specific Hinting agent should take the job.
-        # General backward hinting agent hints about the ultimate goal object, letting the player know what is his goal in a larger scale.
-        # You will be given the item lists and the player's request. Your task is to decide which hinting agent to distribute the hinting task to.
-        # Note: Only output item when distributing the task to "Item Specific Hinting" agent.
-        # Note: You should output no quotation marks.
-        # Note: Pay attention to word case in the output.
-
-        # Distibuting Logic:
-        # If the player is talking about an object, go Item Specific Hinting, together with the item.
-        # If the player is asking what to do next, go General Forward Hinting.
-        # If the player is asking what to do at the end or what to do to win, go General Backward Hinting.
-        # """
-        # # TODO: Dependent Puzzle & Independent Puzzle
-        # prompt = """
-        # Here are some examples:
-        # Example 1:
-        # Assume the item list is "['door', 'key', 'box']", the player's request is "What should I do next?".
-        # Since the player is asking about what to do in general and immediately, the task should be distributed to General Forward Hinting agent.
-        # So you should output "General Forward Hinting". 
-        # Example 2:
-        # Assume the item list is "['door', 'key', 'box', 'painting']", the player's request is "What should I do with the painting?".
-        # Since the player is asking about the "painting" indicatively, the task should be distributed to Item Specific Hinting agent, and the item "painting" in the item list.
-        # So you should output "Item Specific Hinting, <painting>". 
-        # Example 3:
-        # Assume the item list is "['door', 'key', 'box', 'painting']", the player's request is "How to open the box?".
-        # Since the player is asking about the "box" indicatively, the task should be distributed to Item Specific Hinting agent, and the item "box" in the item list.
-        # So you should output "Item Specific Hinting, <box>".
-        # Example 4:
-        # Assume the item list is "['door', 'key', 'box', 'painting', 'closet']", the player's request is "What do to with the closet?".
-        # Since the player is asking about the "closet" indicatively, the task should be distributed to Item Specific Hinting agent, and the item "closet" in the item list.
-        # So you should output "Item Specific Hinting, <closet>".
-        # Example 5:
-        # Assume the item list is "['door', 'key', 'box']", the player's request is "What should I do to get out?".
-        # Since the player is asking about what to do in a larger scope in general, but not what to do immediately, the task should be distributed to General Backward Hinting agent. 
-        # So you should output "General Backward Hinting". 
-        # Example 6:
-        # Assume the item list is "['door', 'key', 'box', 'painting']", the player's request is "What should I do to escape?".
-        # Since the player is asking about what to do in a larger scope in general, but not what to do immediately, the task should be distributed to General Backward Hinting agent. 
-        # So you should output "General Backward Hinting". 
-        # """
-        # input = f"""
-        # You are now given the information for this task. The item list is "{list(self.room.get_items().keys())}", and the player's request is "{user_input}".
-        # Now decide which agent should take the task and output it.
-        # """
-        # posttext = """
-        # Attention: Do not output your reasonsings. Only output the hinting agent and the potential item in your response. No quotations marks.
-        # """
-
         pretext = """
         Suppose you are a hinting task manager in an escape room game. Hinting agents are general forward hinting agent, item specific hinting agent, and general backward hinting agent.
         General forward hinting agent select one ready-to-proceed item and hint, suggesting the player what could he immediately do.
@@ -133,7 +82,7 @@ class HintGenerator:
                 agent_response = self.general_forward_hinting()
             else:
                 raw_item = raw_response[start+1:end]
-                agent_response = self.item_forward_hinting(raw_item)
+                agent_response = self.item_specific_hinting(raw_item)
         else:
             agent_response = "I'm not sure I fully understand what you mean. Would you mind explaining it a bit more clearly?"
         return agent_response
@@ -197,7 +146,7 @@ class HintGenerator:
     # If no such an item or item is invisible, return not found the item
     # If the item can not proceed currently, return cannot proceed now
     # Give the hint of the action label
-    def item_forward_hinting(self, raw_item):
+    def item_specific_hinting(self, raw_item):
         items = self.room.get_items()
         item = None
         for key in items:
