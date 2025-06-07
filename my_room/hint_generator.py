@@ -1,5 +1,5 @@
 import ollama
-from . import item_filler
+from . import auto_generator
 
 class HintGenerator:
     def __init__(self, room):
@@ -97,7 +97,7 @@ class HintGenerator:
             if item.check_invisible() or not item.check_proceeding_status():
                 continue
             if not item.get_current_label():
-                item.set_current_label(item_filler.label_generator(item))
+                item.set_current_label(auto_generator.label_generator(item))
             label = item.get_current_label()
             break
         cur_state = item.get_current_state()
@@ -158,7 +158,7 @@ class HintGenerator:
                 if not item.check_proceeding_status():
                     return "This item doesn't reveal anything new right now. Want to take a look at another one"
                 if not item.get_current_label():
-                    item.set_current_label(item_filler.label_generator(item))
+                    item.set_current_label(auto_generator.label_generator(item))
                 label = item.get_current_label()
                 break
         if not item:
@@ -216,7 +216,7 @@ class HintGenerator:
         next_state = end_item.get_current_state()
         assert next_state, "Should have escaped!"
         if not end_item.get_current_label():
-            end_item.set_current_label(item_filler.label_generator(end_item))
+            end_item.set_current_label(auto_generator.label_generator(end_item))
         label = end_item.get_current_label()
 
         if end_item.check_invisible():

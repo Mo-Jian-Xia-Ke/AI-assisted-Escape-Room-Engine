@@ -6,7 +6,7 @@
                 "description": "A painting with a suspicious crease."
             },
             {
-                "description": "A painting with a folded corner, where a series of number '9827' is written behind."
+                "description": "A painting with a folded corner, with '0619' written behind."
             }
         ]
     },
@@ -50,18 +50,18 @@
         "name": "lock",
         "type": "puzzle",
         "puzzle_state": 1,
+        "code_states": [["painting", 1]],
         "states": [
             {
                 "description": "Not found. (invisible)",
                 "invisible": true
             },
             {
-                "description": "A normal digital lock that protects the box.",
-                "dependency_list": [["painting", 1]],
+                "description": "A normal digital lock on the box that protects it.",
                 "label": "examine the lock"
             },
             {
-                "description": "An unlocked lock.",
+                "description": "An unlocked lock on the box.",
                 "awaken_list": ["box"]
             }
         ]

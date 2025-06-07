@@ -28,6 +28,12 @@ class State:
     def get_description(self):
         return self.description
     
+    def get_room_description(self):
+        return self.room_description
+    
+    def set_room_description(self, input):
+        self.room_description = input
+    
     def check_invisible(self):
         return self.invisible
 

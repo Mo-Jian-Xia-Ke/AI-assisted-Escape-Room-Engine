@@ -7,7 +7,7 @@ import en_core_web_sm
 
 import ollama
 
-from . import item_filler, state, item
+from . import auto_generator, state, item
 
 # classifier usage example:
 # sequence_to_classify = "What should I do now?"
@@ -68,6 +68,43 @@ class Action:
             print("Analyze: " + analyzed_info)
             print("Label: " + label)
             return label
+        
+    # Check whether the user's action is valid to proceed the item's state
+    # used to check to give succesful/failed feedback
+    def valid_interaction_check(self, item):
+        pretext = """
+        Suppose you are a interaction validator in an escape room game.
+        Given the player's input, the item name, the item's current state and the next state, your task is to determine whether the player's input is reasonable to make the item proceed to the next state.
+        """
+        prompt = """
+        Here are some examples:
+        Example 1:
+        If the item is "painting", the player inputs "I want to examine the painting", the current state is "A painting with a suspicious crease.", the next state is "A painting with a folded corner, with '0619' written behind.".
+        It seems a correspondent move, so you should respond "valid".
+        Example 2:
+        If the item is "painting", the player inputs "Burn the painting", the current state is "A painting with a suspicious crease.", the next state is "A painting with a folded corner, with '0619' written behind.".
+        It is too violent and can not lead to the next state, so you should respond "invalid".
+        Example 3:
+        If the item is "box", the player inputs "Open the box.", the current state is "A closed box with a lock.", the next state is "An open box with a golden key inside".
+        It seems a correspondent move, so you should respond "valid".
+        Example 4:
+        If the item is "box", the player inputs "I want to throw the box to the ground.", the current state is "A closed box with a lock.", the next state is "An open box with a golden key inside".
+        It is not the right way to open the box since it has a lock outside, so you should respond "invalid".
+        Example 5:
+        If the item is "lock", the player inputs "I want to examine the lock.", the current state is "A normal digital lock", the next state is "The lock is open now.".
+        It seems the right move, so you should respond "valid".
+        Example 6:
+        If the item is "lock", the player inputs "I want to pry the lock.", the current state is "A normal digital lock", the next state is "The lock is open now.".
+        The digital lock puzzle is not designed to be pryed, so you should respond "invalid".
+        """
+        user_input = f"""
+        Now, the item is "{item.get_name()}", the player inputs "{self.input}", the current state is "{item.get_description()}", and the next state is "{item.get_next_state().get_description()}".
+        """
+        posttext = """
+        Attention: Only output the word "valid" or "invalid". No codes or reasoning steps.
+        """
+        response: ollama.GenerateResponse = ollama.generate(model='llama3.2', prompt=pretext + prompt + user_input + posttext)
+        return response['response'].strip('\'".').lower()
 
     # ---------- Label update function ---------- #
 
@@ -91,7 +128,7 @@ class Action:
                         break
 
                     if not item.get_current_label():
-                        item.set_current_label(item_filler.label_generator(item))
+                        item.set_current_label(auto_generator.label_generator(item))
                     added_labels.append(item.get_current_label())
                     break
         return added_labels
@@ -105,13 +142,12 @@ class Action:
             if item.check_invisible():
                 continue
             # TODO: How to deal with end state label for feedback?
-            if item.check_end_state():
-                # added_labels.append(item.get_name())
-                continue
             if not item.get_current_label():
-                item.set_current_label(item_filler.label_generator(item))
+                if item.check_end_state():
+                    item.set_current_label(f"interact with the {item.get_name()}")
+                else:
+                    item.set_current_label(auto_generator.label_generator(item))
             added_labels.append(item.get_current_label())
-
         return added_labels
 
     # ---------- NLP interpreters ---------- #
@@ -184,7 +220,7 @@ class Action:
         """
         prompt = """
         Here are some examples:
-        Assume the list of action labels is ['ask for hint', 'other', 'examine the painting', 'try the box', 'try the door', 'examine the lock']
+        Assume the list of action labels is ['ask for hint', 'other', 'examine the painting', 'open the box', 'try the door', 'examine the lock']
 
         Example 1:
         Given the analyzed information: "I would select 'examine the painting'."
@@ -204,12 +240,16 @@ class Action:
         You should output: ask for hint
 
         Example 5:
-        Given the analyzed information (sometimes direct): "'open the lock'"
+        Given the analyzed information (sometimes synonym): "'open the lock'"
         You should output: examine the lock
 
         Example 6:
         Given the analyzed information (sometimes direct): "'examine the lock'"
         You should output: examine the lock
+
+        Example 7:
+        Given the analyzed information (sometimes direct): "open the box"
+        You should output: open the box
 
         Example 7:
         Given the analyzed information: "The player's intention suggests me to select 'ask for hint'."
@@ -223,12 +263,6 @@ class Action:
         """
         response: ollama.GenerateResponse = ollama.generate(model='llama3.2', prompt=pretext + prompt + user_input + posttext)
         return response['response'].strip('\'"')
-    
-    # Check whether the user's action is valid to proceed the item's state
-    # used to check to give succesful/failed feedback
-    def llm_valid_interaction_check(self):
-        # TODO:
-        pass
         
     # [Discarded]
     def llm_item_extraction(self, input):

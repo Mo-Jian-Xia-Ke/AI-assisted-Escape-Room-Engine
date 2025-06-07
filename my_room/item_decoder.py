@@ -45,11 +45,16 @@ def item_init(raw_item):
         print("Missing item states!")
     if len(raw_states) == 0:
         print("Empty state list!")
+
+    try:
+        code_states = raw_item['code_states']
+    except KeyError:
+        code_states = []
     
     states = []
     for i in range(len(raw_states)):
         states.append(state_init(raw_states[i]))
-    return item.Item(name=name, states=states, i_type=i_type, puzzle_state=puzzle_state)
+    return item.Item(name=name, states=states, i_type=i_type, puzzle_state=puzzle_state, code_states=code_states)
 
 # Given a item json, get its name; if not detected, return an empty string
 def name_init(raw_item):
@@ -70,6 +75,10 @@ def state_init(raw_state):
     except KeyError:
         label = ""
     try:
+        room_description = raw_state['room_description']
+    except KeyError:
+        room_description = None
+    try:
         invisible = raw_state['invisible']
     except KeyError:
         invisible = False
@@ -83,10 +92,14 @@ def state_init(raw_state):
         awaken_list = []
     return state.State(description=description, invisible=invisible, label=label, dependency_list=dependency_list, awaken_list=awaken_list)
 
-# Update all the item_name in dependecy_list and awaken_list into the item itself
+# Update all the item_name in dependecy_list, awaken_list, and code_states into the item itself
 def _strengthen_arg_list(items):
     for key in items:
-        for state in items[key].get_state_list():
+        item = items[key]
+        for code_pair in item.get_code_states():
+            item_name = code_pair[0]
+            code_pair[0] = items[item_name]
+        for state in item.get_state_list():
             for depend_pair in state.get_dependency_list():
                 item_name = depend_pair[0]
                 depend_pair[0] = items[item_name]
