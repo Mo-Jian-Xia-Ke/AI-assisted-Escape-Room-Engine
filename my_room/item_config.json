@@ -28,13 +28,13 @@
         "name": "box",
         "states": [
             {
-                "description": "A closed box."
+                "description": "A closed box.",
+                "label": "examine the box"
             },
             {
                 "description": "A locked box.",
                 "dependency_list": [["lock", 2]],
-                "awaken_list": ["lock"],
-                "label": "open the box"
+                "awaken_list": ["lock"]
             },
             {
                 "description": "An unlocked box."
