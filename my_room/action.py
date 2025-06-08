@@ -37,15 +37,17 @@ class Action:
         labels = self.update_all_labels()
         print("Labels: ", end = "")
         print(labels)
-        if self.mode == "nlp":
-            return self.nlp_mode(labels)
+        if self.mode in ["classic", "classic nlp"]:
+            return self.classic_nlp_mode(labels)
+        elif self.mode in ["transformer", "transformer nlp"]:
+            return self.transformer_nlp_mode(labels)
         elif self.mode == "llm":
             return self.llm_mode(labels)
         else:
             return self.hybrid_mode(labels)
         
-    def nlp_mode(self, labels):
-        print("NLP mode:")
+    def classic_nlp_mode(self, labels):
+        print("Classic NLP mode:")
         if '?' in self.input or 'hint' in self.input:
             return 'ask for hint'
         noun = self.extract_main_noun()
@@ -57,9 +59,17 @@ class Action:
             return 'other'
         return self.items.get(item_name).get_current_label()
             
-    def llm_mode(self, labels):
+    def transformer_nlp_mode(self, labels):
+        print("Transformer NLP mode:")
         label, _ = self.bart_interpret(labels)
+        return label
+
+    def llm_mode(self, labels):
         print("LLM mode:")
+        analyzed_info = self.llm_label_matching(labels)
+        label = self.llm_label_output(analyzed_info, labels)
+        print("Analyze: " + analyzed_info)
+        print("Label: " + label)
         return label
 
     def hybrid_mode(self, labels):
@@ -125,7 +135,7 @@ class Action:
             added_labels.append(item.get_current_label())
         return added_labels
 
-    # ---------- NLP interpreters ---------- #
+    # ---------- Classic NLP interpreters ---------- #
     
     # Try to extract the main component noun of the sentence
     def extract_main_noun(self):
@@ -169,7 +179,7 @@ class Action:
                 return item_name  # matched item
         return None
     
-    # ---------- LLM interpreters ---------- #
+    # ---------- Transformer-based NLP interpreters ---------- #
 
     # Return the label with the highest correspondent score and that score
     def bart_interpret(self, labels):
@@ -181,6 +191,89 @@ class Action:
         label = results['labels'][0]
         score = results['scores'][0]
         return (label, score)  
+    
+    # ---------- LLM interpreters ---------- #
+
+    def llm_label_matching(self, labels):
+        pretext = """
+        Suppose you are a action interpreter or intent extractor in an escape room game. 
+        Given the player's input and all the possible action labels, select the label that matches the player's intent the most.
+        """
+        prompt = """
+        For example:
+        Assume the list of action labels is ['ask for hint', 'other', 'examine the painting', 'try the box.', 'try the door']
+        If the player's input is "Take a closer look at the painting", you should select 'examine the painting'.
+        If the player's input is "I want to open the box", you should select 'try the box.'.
+        If the player's input is "Make myself a cup of tea", you should select 'other'.
+        If the player's input is "What should I do now?", you should select 'ask for hint'.
+        
+        Another example:
+        Assume the list of action labels is ['ask for hint', 'other', 'try the lock', 'try the box.', 'try the door']
+        If the player's input is "I want to open the box", you should select 'try the box'.
+        If the player's input is "I want to open the lock on the box", you should select 'try the lock'.
+        If the player's input is "I want to see the lock", you should select 'try the lock'.
+        If the player's input is "I want to open the door", you should select 'try the door'.
+        If the player's input is "Make myself a cup of tea", you should select 'other'.
+        If the player's input is "What should I do now?", you should select 'ask for hint'.
+        If you are not sure, just select 'other'.
+        """
+        user_input = f"""
+        Now, the player's input is "{self.input}", the list of action labels is "{labels}".
+        Now select the label that matches the intent best. 
+        """
+        posttext = """
+        Note: Only respond the label you selected.
+        """
+        response: ollama.GenerateResponse = ollama.generate(model='llama3.2', prompt=pretext + prompt + user_input + posttext)
+        return response['response']
+    
+    def llm_label_output(self, analyzed_info, labels):
+        pretext = """
+        Suppose you are a label selecter in an escape room game. 
+        Given the analyzed information and all the possible action labels, select the corresponding label.
+        Note: Do not generate codes, only give the answer.
+        """
+        prompt = """
+        Here are some examples:
+        Assume the list of action labels is ['ask for hint', 'other', 'examine the painting', 'try the box', 'try the door', 'examine the lock']
+
+        Example 1:
+        Given the analyzed information: "I would select 'examine the painting'."
+        You should output: examine the painting
+
+        Example 2:
+        Given the analyzed information: "The selected action label is 'Try the door'."
+        You should output: try the door
+
+        Example 3:
+        Given the analyzed information: "I would select 'other' as the action label that matches the player's intent best."
+        You should output: other
+
+        Example 4:
+        Somtimes the analyzed information are direct, then you should just output directly the indicated label.
+        Given the analyzed information (sometimes direct): "'ask for hint'."
+        You should output: ask for hint
+
+        Example 5:
+        Given the analyzed information (sometimes direct): "'open the lock'"
+        You should output: examine the lock
+
+        Example 6:
+        Given the analyzed information (sometimes direct): "'examine the lock'"
+        You should output: examine the lock
+
+        Example 7:
+        Given the analyzed information: "The player's intention suggests me to select 'ask for hint'."
+        You should output: ask for hint
+        """
+        user_input = f"""
+        Now, Given the list of action labels "{labels}" and the analyzed information: "{analyzed_info}", output the correct label inside the quotation marks.
+        """
+        posttext = """
+        Attention: Only output the label in your response, WITHOUT quotation marks.
+        """
+        response: ollama.GenerateResponse = ollama.generate(model='llama3.2', prompt=pretext + prompt + user_input + posttext)
+        return response['response'].strip('\'"')
 
 # ----------------------------------------------------------------- #
 

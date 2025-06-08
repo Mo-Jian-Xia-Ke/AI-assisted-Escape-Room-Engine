@@ -21,9 +21,7 @@ def interact_with_item(room, item, user_input):
     if item.check_end_state():
         status = 'failure'
         status_detail = 'end state'
-    elif 'invalid' in room.get_action_interpreter().valid_interaction_check(item):
-        print("ollama Validation: " + room.get_action_interpreter().valid_interaction_check(item))
-        
+    elif 'invalid' in room.get_action_interpreter().valid_interaction_check(item):        
         status = 'failure'
         status_detail = 'invalid move'
     elif item.get_type() == ItemType.PUZZLE and item.check_display_status():
