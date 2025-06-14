@@ -1,0 +1,79 @@
+[
+    {
+        "name": "painting",
+        "states": [
+            {
+                "description": "A painting with a suspicious crease."
+            },
+            {
+                "description": "A painting with a folded corner, with '0619' written behind."
+            }
+        ]
+    },
+    {
+        "name": "box",
+        "states": [
+            {
+                "description": "A locked box."
+            },
+            {
+                "description": "A open box."
+            }
+        ]
+    },
+    {
+        "name": "cup",
+        "states": [
+            {
+                "description": "An empty cup."
+            },
+            {
+                "description": "A cup filled with water."
+            }
+        ]
+    },
+    {
+        "name": "clock",
+        "states": [
+            {
+                "description": "A clock points at 1:10."
+            },
+            {
+                "description": "A clock points at 3:30."
+            }
+        ]
+    },
+    {
+        "name": "lock",
+        "states": [
+            {
+                "description": "A lock which protects the box."
+            },
+            {
+                "description": "A unlocked lock."
+            }
+        ]
+    },
+    {
+        "name": "television",
+        "states": [
+            {
+                "description": "A television that is not turned on."
+            },
+            {
+                "description": "A television showing a colorful picture."
+            }
+        ]
+    },
+    {
+        "name": "door",
+        "states": [
+            {
+                "description": "A closed door."
+            },
+            {
+                "description": "An open door."
+            }
+        ]
+    }
+]

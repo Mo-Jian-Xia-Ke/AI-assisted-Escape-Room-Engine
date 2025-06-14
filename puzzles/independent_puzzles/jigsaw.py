@@ -133,7 +133,7 @@ class Jigsaw(IndependentPuzzle):
 # Test
 def test():
     image_path = os.path.abspath("img/room1.png")
-    test_jigsaw = Jigsaw(name="test", image_path=image_path)
+    test_jigsaw = Jigsaw(name="Jigsaw", image_path=image_path)
     result = test_jigsaw.display()
     print(result)
 

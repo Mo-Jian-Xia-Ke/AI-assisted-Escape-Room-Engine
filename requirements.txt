@@ -1,0 +1,17 @@
+# Required Packages:
+
+from PIL import Image, ImageTk
+
+import nltk
+from nltk.corpus import wordnet
+
+import spacy
+import en_core_web_sm
+
+import transformers
+
+import ollama
+ollama pull llama3.2 (before use)
+
+tkinter for window display (room & puzzles) (standard lib)
+json (standard lib)

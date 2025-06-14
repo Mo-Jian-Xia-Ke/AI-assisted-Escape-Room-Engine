@@ -66,7 +66,7 @@ class DigitalLock(DependentPuzzle):
 # Test
 def test():
     code = 1234
-    test_lock = DigitalLock(name="test", code=code, num_digits=len(str(code)))
+    test_lock = DigitalLock(name="Digital Lock", code=code, num_digits=len(str(code)))
     result = test_lock.display()
     print(result)
 

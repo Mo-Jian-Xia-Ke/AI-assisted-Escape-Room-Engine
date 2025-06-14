@@ -1,51 +1,43 @@
-# Project name modified?
+# Project name:
 AI-assisted escape room engine
 
-4.23 Todo List:
-1. Objects dependent action list
-2. Threshold hinting (e.g. 5 times failure -> give a hint? yes/no)
-3. Try multi-label = true
+# Author
+Cheng Ma
 
-# Environment: package_info.md
-Remember to include MIT license
-Comments: """ shoule be inside python class and functions!
-UI-Manager
+# Project Type:
+Imperial College London's BEng Individual Project
 
-5.22 Todo List:
-1. Finish //Hinting// and /Feedback/ for demo_2 [Partly_Done] [Partly_Done]
-2. Create more puzzles and build demo_3
-3. LLM & NLP evaluation (in action.py)
+# Requirements:
+Required packages are shown in requirements.txt.
+In order to run your game, you should install them in advance.
 
-4. Negative prompting in item_filler.py [Partly_Done]
-5. UI-Design
-6. Strict digital lock: Only "see code first then type code" -> success
-   Lazy digital lock: As soon as "type code" -> success
-   Adaptive digital lock (default): Generate code that avoid initial guesses, or guess all -> success ("Wow so hard you've tried!") [Waitlist]
+# Third-Party Libraries:
+Third-party library uses are documented in NOTICE.
 
-5.29 Todo List:
-Implement Hinting Manager [Problem: Sometimes trigger the action label, but not 'ask for hint', need the hybrid approach implement!]
-From json to yml file?
+# Guide:
+1. When creating the room, create your new folder which contains your own item_config.JSON and puzzle_config.JSON.
+2. Create an initializer.py that calls the start_game() function in the engine/main_engine.py
+3. Modify the main.py from the highest layer to call your initializer.py
+4. Run the main program in the outer level (the level that you can directly see main.py) to start playing your own room
 
-6.5:
-Correct Label + 2-3 Interrupt label
-If confidence level > 0.75: accept
-Else: LLM trigger
+# Customization:
+You can modify and create your own puzzles within in the puzzles folder. There are some templates for you to follow.
 
-Report: different confidence level accuracy & time comparison
-
-Puzzle examples: (Each can have one of the three modes above)
-1. 数字谜题：[Done]
-    “我的倒数是我自己的一半，正着看和反着看一样。” -> 121
-    解方程或新定义运算等。
-2. 密码谜题：[Done]
-    Uifsf jt b tfdsfu npef -> （凯撒密码）There is a secret mode
-3. 拼图谜题：(可以加code后套ind拼图)
-    拼图成功后解谜，或是得到密码
-4. 拨动时钟类谜题 [Done]
-5. 书本排序类谜题
-
-独立小游戏谜题：(ref Rusty Lake)
-1. 音符敲击谜题
-2. 点火顺序谜题
-3. 拼图碎片复原 [Done]
-4. 机关拼装（或旋转）
+# Structure:
+Core Components:
+    engine:
+        - item
+        - state
+        - action
+        - generators
+        - hint system
+    puzzles:
+        - puzzle
+        - dependent_puzzles:
+            - ...
+        - independent_puzzles:
+            - ...
+    - simple_room_demo:
+        - item_config.JSON
+        - puzzle_config.JSON
+        - initializer.py

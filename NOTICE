@@ -1,0 +1,24 @@
+This project includes the following third-party components:
+
+1. spaCy (MIT License)
+   - Copyright (c) 2016-2024 ExplosionAI GmbH, 2016 spaCy GmbH, 2015 Matthew Honnibal
+   - Source: "https://github.com/explosion/spaCy/"
+
+2. Ollama (MIT License)
+   - Copyright (c) Ollama
+   - Source: "https://github.com/ollama/ollama"
+
+3. PIL (MIT License)
+   - Copyright (c) 1997-2011 by Secret Labs AB
+     Copyright (c) 1995-2011 by Fredrik Lundh and contributors
+   - Source (PIL fork): "https://github.com/python-pillow/Pillow"
+
+4. NLTK (Apache 2.0 License)
+   - Copyright (c) 2001-2025 NLTK Project
+   - Source: "https://github.com/nltk/nltk"
+   - This product includes software developed by Bird, Steven, Edward Loper and Ewan Klein (2009)
+
+5. transformers (Apache 2.0 License)
+   - Copyright (c) 2018 The Hugging Face team
+   - Source: "https://github.com/huggingface/transformers"
+   - This product includes software developed by the Hugging Face team

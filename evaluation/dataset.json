@@ -1,0 +1,128 @@
+[
+    {
+        "item": "painting",
+        "labels": [
+            "Look at the painting.",
+            "Check the crease on the painting.",
+            "Lift the corner of the painting.",
+
+            "Examine the back of the painting.",
+            "See if anything is written behind the painting.",
+            "Unfold the creased corner carefully.",
+
+            "Investigate the suspicious crease for hidden clues.",
+            "Search for numbers or markings behind the folded part.",
+            "Carefully manipulate the painting to reveal hidden text.",
+
+            "Do something with the painting to find more information."
+        ]
+    },
+    {
+        "item": "box",
+        "labels": [
+            "Try to open the box.",
+            "Check if the box is locked.",
+            "Shake the box to see if it makes noise.",
+
+            "Look for a way to unlock the box.",
+            "Examine the box for a keyhole or mechanism.",
+            "Search for a key nearby to open the box.",
+
+            "Find a way to bypass the lock without breaking it.",
+            "Inspect the box’s seams for weak points.",
+            "Attempt to pick the lock if possible.",
+
+            "Make the box accessible somehow."
+        ]
+    },
+    {
+        "item": "cup",
+        "labels": [
+            "Pick up the cup.",
+            "Look inside the cup.",
+            "Fill the cup with water.",
+
+            "Pour water from another source into the cup.",
+            "Check if the cup is clean before filling it.",
+            "Use the cup to scoop water from somewhere.",
+
+            "Find a water source to fill the cup precisely.",
+            "Measure the exact amount of water needed.",
+            "Use the filled cup for another purpose (e.g., watering a plant).",
+
+            "Do something to change the cup’s state."
+        ]
+    },
+    {
+        "item": "clock",
+        "labels": [
+            "Check the time on the clock.",
+            "Turn the clock’s hands.",
+            "Adjust the clock to 3:30.",
+
+            "Rotate the minute hand clockwise.",
+            "Set the hour hand to the correct position.",
+            "Align the clock with another time source.",
+
+            "Calculate how much to move the hands to reach 3:30.",
+            "See if the clock triggers something when set correctly.",
+            "Use the clock’s new time as part of a puzzle.",
+
+            "Make the clock show a different time."
+        ]
+    },
+    {
+        "item": "lock",
+        "labels": [
+            "Try to open the lock.",
+            "Insert a key into the lock.",
+            "Turn the lock to see if it’s stuck.",
+
+            "Search for a key that fits the lock.",
+            "Examine the lock’s mechanism closely.",
+            "Attempt to pick the lock with a tool.",
+
+            "Find the correct combination or key elsewhere.",
+            "Disassemble the lock carefully.",
+            "Use lockpicking techniques to bypass it.",
+
+            "Make the lock no longer protect the box."
+        ]
+    },
+    {
+        "item": "television",
+        "labels": [
+            "Turn on the television.",
+            "Press the power button.",
+            "Check if the TV has a remote.",
+
+            "Adjust the antenna for better reception.",
+            "Change the channel to see different content.",
+            "Plug in the TV if it’s unpowered.",
+
+            "Troubleshoot why the TV isn’t working.",
+            "Fine-tune the settings for a clear picture.",
+            "Use the TV’s display to solve another puzzle.",
+
+            "Make the television show something."
+        ]
+    },
+    {
+        "item": "door",
+        "labels": [
+            "Open the door.",
+            "Try the doorknob.",
+            "Push or pull the door.",
+
+            "Check if the door is locked.",
+            "Look for a key to unlock the door.",
+            "Knock on the door to see if someone answers.",
+
+            "Examine the door frame for hidden mechanisms.",
+            "Force the door open if necessary.",
+            "Find an alternative way past the door.",
+
+            "Make the door no longer closed."
+        ]
+    }
+]

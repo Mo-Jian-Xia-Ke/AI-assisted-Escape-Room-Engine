@@ -66,7 +66,7 @@ class CharLock(DependentPuzzle):
 # Test
 def test():
     code = "LOVE"
-    test_lock = CharLock(name="test", code=code, num_chars=len(code))
+    test_lock = CharLock(name="Character Lock", code=code, num_chars=len(code))
     result = test_lock.display()
     print(result)
 

@@ -129,7 +129,7 @@ class ClockPuzzle(DependentPuzzle):
 def test():
     target_hour = 5
     target_minute = 30
-    test_clock = ClockPuzzle(name="test", target_hour=target_hour, target_minute=target_minute)
+    test_clock = ClockPuzzle(name="Clock Puzzle", target_hour=target_hour, target_minute=target_minute)
     result = test_clock.display()
     print(result)
 
